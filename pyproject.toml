@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leoclip"
+version = "0.1.0"
+description = "A minimalist clipboard manager for i3wm backed by SQLite"
+readme = "README.md"
+authors = [{ name = "Leonardo Policarpo", email = "leo.dumont@outlook.com" }]
+license = { text = "GPL-3.0-or-later" }
+requires-python = ">=3.8"
+dependencies = [
+  "pyperclip"
+]
+
+[project.urls]
+Homepage = "https://github.com/leonardopolicarpo/leoclip.git"
+
+[project.scripts]
+leoclip-daemon = "leoclip.daemon:main"
+leoclip-menu = "leoclip.menu:show_menu"
