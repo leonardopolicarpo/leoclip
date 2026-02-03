@@ -34,7 +34,7 @@ Since LeoClip is currently in development, the best way to install it is by clon
 ### 1. Clone the repository:
 
 ```bash
-git clone git clone https://github.com/leonardopolicarpo/leoclip.git
+git clone https://github.com/leonardopolicarpo/leoclip.git
 cd leoclip
 ```
 
