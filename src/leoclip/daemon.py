@@ -1,47 +1,26 @@
-import sqlite3
-import os
 import time
-import pyperclip
-
-from .config import DB_PATH
-
-def init_db():
-  os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-  
-  conn = sqlite3.connect(DB_PATH)
-  conn.execute('''CREATE TABLE IF NOT EXISTS clipboard 
-                (id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                  content TEXT UNIQUE, 
-                  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
-  conn.commit()
-  conn.close()
-
-def save_clip(text):
-  text = text.strip()
-  if not text: return
-
-  try:
-    with sqlite3.connect(DB_PATH) as conn:
-      conn.execute("INSERT OR REPLACE INTO clipboard (content) VALUES (?)", (text,))
-      conn.execute("DELETE FROM clipboard WHERE id NOT IN (SELECT id FROM clipboard ORDER BY timestamp DESC LIMIT 20)")
-      conn.commit()
-  except Exception as e:
-    print(f"Error saving clip: {e}")
+from .clipboard import ClipboardManager
+from .database import Database
 
 def main():
-  init_db()
-  print(f"LeoClip daemon started... Database: {DB_PATH}")
+  db = Database()
+  db.init_db()
+  print(f"LeoClip daemon started.")
 
-  last_clip = ""
+  last_content = ClipboardManager.get_current_content()
+
   while True:
     try:
-      current_clip = pyperclip.paste()
-      if current_clip != last_clip:
-        save_clip(current_clip)
-        last_clip = current_clip
+      current_content = ClipboardManager.get_current_content()
+
+      if current_content != last_content and current_content.strip():
+        db.save_clip(current_content, clip_type='text')
+        last_content = current_content
+
     except Exception as e:
-      print(f"Error: {e}")
-    time.sleep(1.5)
+      print(f"Error in daemon loop: {e}")
+
+    time.sleep(1.0)
 
 if __name__ == "__main__":
   main()
