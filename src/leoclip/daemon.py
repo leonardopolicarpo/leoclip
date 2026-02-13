@@ -1,46 +1,51 @@
-import sqlite3
 import os
 import time
-import pyperclip
-
-from .config import DB_PATH
-
-def init_db():
-  os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-  
-  conn = sqlite3.connect(DB_PATH)
-  conn.execute('''CREATE TABLE IF NOT EXISTS clipboard 
-                (id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                  content TEXT UNIQUE, 
-                  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
-  conn.commit()
-  conn.close()
-
-def save_clip(text):
-  text = text.strip()
-  if not text: return
-
-  try:
-    with sqlite3.connect(DB_PATH) as conn:
-      conn.execute("INSERT OR REPLACE INTO clipboard (content) VALUES (?)", (text,))
-      conn.execute("DELETE FROM clipboard WHERE id NOT IN (SELECT id FROM clipboard ORDER BY timestamp DESC LIMIT 20)")
-      conn.commit()
-  except Exception as e:
-    print(f"Error saving clip: {e}")
+import uuid
+from .config import IMAGES_DIR
+from .clipboard import ClipboardManager
+from .database import Database
+from .utils import calculate_hash
 
 def main():
-  init_db()
-  print(f"LeoClip daemon started... Database: {DB_PATH}")
+  db = Database()
+  print(f"LeoClip Daemon v0.2.0 started.")
 
-  last_clip = ""
+  last_hash = ""
+
   while True:
     try:
-      current_clip = pyperclip.paste()
-      if current_clip != last_clip:
-        save_clip(current_clip)
-        last_clip = current_clip
+      targets = ClipboardManager.get_clipboard_targets()
+
+      if 'image/png' in targets:
+        image_data = ClipboardManager.get_image_binary()
+
+        if image_data:
+          current_hash = calculate_hash(image_data)
+
+          if current_hash != last_hash:
+            filename = f"img_{uuid.uuid4()}.png"
+            filepath = os.path.join(IMAGES_DIR, filename)
+
+            with open(filepath, "wb") as f:
+              f.write(image_data)
+
+            print(f"Image saved: {filename}")
+
+            db.save_clip(filepath, clip_type='image')
+            last_hash = current_hash
+      
+      elif 'UTF8_STRING' in targets or 'STRING' in targets:
+        text = ClipboardManager.get_text_content()
+        if text.strip():
+          current_hash = calculate_hash(text.encode('utf-8'))
+
+          if current_hash != last_hash:
+            db.save_clip(text, clip_type='text')
+            last_hash = current_hash
+    
     except Exception as e:
       print(f"Error: {e}")
+    
     time.sleep(1.5)
 
 if __name__ == "__main__":
