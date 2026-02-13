@@ -1,9 +1,8 @@
-import os
 import subprocess
-from .clipboard import ClipboardManager
 from .database import Database
 from .config import ROFI_THEME
 from .ui import format_item
+from .actions import ActionHandler
 
 def show_menu():
   db = Database()
@@ -19,6 +18,8 @@ def show_menu():
     'rofi', '-dmenu', '-i',
     '-p', '📋 LeoClip',
     '-format', 'i',
+    '-kb-custom-1', 'Control+Delete',
+    '-kb-custom-2', 'Control+s',
     '-show-icons',
     '-theme-str', ROFI_THEME
   ]
@@ -31,6 +32,7 @@ def show_menu():
   )
   
   selected_index_str, _ = rofi_proc.communicate(input=rofi_input)
+  exit_code = rofi_proc.returncode
 
   if not selected_index_str.strip():
     return
@@ -39,15 +41,10 @@ def show_menu():
     index = int(selected_index_str.strip())
     content, clip_type = clips[index]
 
-    if clip_type == "image":
-      if os.path.exists(content):
-        success = ClipboardManager.set_image_from_path(content)
-        print(f"Image restored!" if success else "Failed to restore image")
-    else:
-      ClipboardManager.set_text_content(content)
+    ActionHandler.execute(exit_code, content, clip_type)
 
   except Exception as e:
-    print(f"Error restoring clip: {e}")
+    print(f"Menu Error: {e}")
 
 if __name__ == "__main__":
   show_menu()

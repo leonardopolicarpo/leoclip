@@ -39,3 +39,17 @@ class Database:
         "SELECT content, type FROM clipboard ORDER BY timestamp DESC LIMIT ?",
         (limit,)
       ).fetchall()
+  
+  def delete_clip(self, content: str):
+    with self._get_connection() as conn:
+      conn.execute(
+        "DELETE FROM clipboard WHERE content = ?",
+        (content,)
+      )
+
+def get_clip_by_content(self, content: str):
+  with self._get_connection() as conn:
+    return conn.execute(
+      "SELECT content, type FROM clipboard WHERE content = ?",
+      (content,)
+    ).fetchone()
