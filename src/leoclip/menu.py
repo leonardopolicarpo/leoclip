@@ -9,10 +9,10 @@ def show_menu():
   clips = db.get_recent_clips(limit=20)
 
   if not clips:
-    return
-
-  options = [format_item(c[0], c[1]) for c in clips]
-  rofi_input = "\n".join(options)
+    rofi_input = "Nenhum item no histórico\0icon\x1fdialog-error"
+  else:
+    options = [format_item(c[0], c[1]) for c in clips]
+    rofi_input = "\n".join(options)
 
   rofi_command = [
     'rofi', '-dmenu', '-i',
@@ -38,6 +38,9 @@ def show_menu():
 
   if exit_code == 12:
     ActionHandler.execute(exit_code, "", "")
+    return
+  
+  if not clips:
     return
 
   if not selected_index_str.strip():

@@ -1,4 +1,3 @@
-# ui.py
 import os
 
 def format_item(content: str, clip_type: str) -> str:
