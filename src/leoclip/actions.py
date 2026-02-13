@@ -3,7 +3,7 @@ import shutil
 from datetime import datetime
 from .clipboard import ClipboardManager
 from .database import Database
-from .config import SCREENSHOT_DIR
+from .config import SCREENSHOT_DIR, IMAGES_DIR
 
 class ActionHandler:
   @staticmethod
@@ -44,11 +44,27 @@ class ActionHandler:
       print(f"❌ Error saving screenshot: {e}")
 
   @staticmethod
+  def clear_all(content: str, clip_type: str):
+    try:
+      db = Database()
+      db.clear_database()
+    except Exception as e:
+      print(f"❌ Database error: {e}")
+
+    if os.path.exists(IMAGES_DIR):
+      try:
+        shutil.rmtree(IMAGES_DIR)
+        os.makedirs(IMAGES_DIR, exist_ok=True)
+      except Exception as e:
+        print(f"❌ Cache error: {e}")
+
+  @staticmethod
   def execute(exit_code: int, content: str, clip_type: str):
     ACTIONS = {
       0: ActionHandler.restore,
       10: ActionHandler.delete,
-      11: ActionHandler.save_screenshot
+      11: ActionHandler.save_screenshot,
+      12: ActionHandler.clear_all
     }
 
     action = ACTIONS.get(exit_code)

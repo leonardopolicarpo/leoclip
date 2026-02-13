@@ -18,6 +18,8 @@ def show_menu():
     'rofi', '-dmenu', '-i',
     '-p', '📋 LeoClip',
     '-format', 'i',
+    '-kb-delete-entry', 'Control+Alt+Shift+z',
+    '-kb-custom-3', 'Shift+Delete',
     '-kb-custom-1', 'Control+Delete',
     '-kb-custom-2', 'Control+s',
     '-show-icons',
@@ -34,13 +36,16 @@ def show_menu():
   selected_index_str, _ = rofi_proc.communicate(input=rofi_input)
   exit_code = rofi_proc.returncode
 
+  if exit_code == 12:
+    ActionHandler.execute(exit_code, "", "")
+    return
+
   if not selected_index_str.strip():
     return
   
   try:
     index = int(selected_index_str.strip())
     content, clip_type = clips[index]
-
     ActionHandler.execute(exit_code, content, clip_type)
 
   except Exception as e:

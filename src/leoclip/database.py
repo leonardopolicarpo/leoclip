@@ -47,9 +47,7 @@ class Database:
         (content,)
       )
 
-def get_clip_by_content(self, content: str):
-  with self._get_connection() as conn:
-    return conn.execute(
-      "SELECT content, type FROM clipboard WHERE content = ?",
-      (content,)
-    ).fetchone()
+  def clear_database(self):
+    with sqlite3.connect(self.db_path, isolation_level=None) as conn:
+      conn.execute("DELETE FROM clipboard")
+      conn.execute("VACUUM")
