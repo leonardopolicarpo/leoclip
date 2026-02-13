@@ -2,15 +2,8 @@ import os
 import subprocess
 from .clipboard import ClipboardManager
 from .database import Database
-
-def format_item_for_rofi(content: str, clip_type: str) -> str:
-  if clip_type == "text":
-    clean_content = content.replace("\n", " ").replace("\r", "")
-    return f"{clean_content[:80]}"
-  elif clip_type == "image":
-    filename = os.path.basename(content)
-    return f"{filename}\0icon\x1f{content}"
-  return "❓ Unknown"
+from .config import ROFI_THEME
+from .ui import format_item
 
 def show_menu():
   db = Database()
@@ -19,16 +12,15 @@ def show_menu():
   if not clips:
     return
 
-  options = [format_item_for_rofi(c[0], c[1]) for c in clips]
+  options = [format_item(c[0], c[1]) for c in clips]
   rofi_input = "\n".join(options)
 
   rofi_command = [
     'rofi', '-dmenu', '-i',
     '-p', '📋 LeoClip',
     '-format', 'i',
-    '-l', '15',
     '-show-icons',
-    '-theme-str', 'element-icon { size: 4ch; }'
+    '-theme-str', ROFI_THEME
   ]
   
   rofi_proc = subprocess.Popen(
