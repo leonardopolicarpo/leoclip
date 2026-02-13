@@ -37,5 +37,5 @@ class Database:
     with self._get_connection() as conn:
       return conn.execute(
         "SELECT content, type FROM clipboard ORDER BY timestamp DESC LIMIT ?",
-        (limit)
+        (limit,)
       ).fetchall()

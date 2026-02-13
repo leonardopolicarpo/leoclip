@@ -101,12 +101,12 @@ Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3 and start th
 
 - [x] Core Daemon (SQLite persistence)
 - [x] Rofi Menu Integration
-- [ ] **v0.2.0:** Image and Screenshot support 📸
+- [x] Image and Screenshot support 📸
 - [ ] History Management (Delete items, Clear all)
-- [ ] AUR Package (`PKGBUILD`)
+- [ ] **v0.2.0:** AUR Package (`PKGBUILD`)
 
 ---
 
 <div align="center">
-  Made with 🐍 and ❤️ by <a href="https://github.com/leonardopolicarpo">Leo</a>
+  Made with 🐍 and ❤️ by <a href="https://github.com/leonardopolicarpo">Leonardo Policarpo</a>
 </div>
