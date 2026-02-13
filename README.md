@@ -2,7 +2,7 @@
   <img src="assets/logo.png" alt="LeoClip Logo" width="150" height="auto" />
   <h1>LeoClip</h1>
   <p>
-    <b>A minimalist clipboard manager for i3wm built with Python & SQLite.</b>
+    <b>A minimalist, multimedia clipboard manager for i3wm built with Python & SQLite.</b>
   </p>
   
   <p>
@@ -84,14 +84,17 @@ Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3 and start th
 
 ## 🏃‍♂️ Usage
 
-1. Copy any text normally (<kbd>Ctrl</kbd> + <kbd>C</kbd>).
+1. Copy any text or image normally (<kbd>Ctrl</kbd> + <kbd>C</kbd> / Right Click > Copy Image).
+2. Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> to open the menu.
 
-2. Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> (or your configured keybinding).
+### ⌨️ Menu Shortcuts
 
-3. Select an item from the **Rofi** list.
-  - The selected text is copied back to your clipboard.
-
-4. Paste it where you want (<kbd>Ctrl</kbd> + <kbd>V</kbd>).
+| Keybinding | Action | Description |
+| :--- | :--- | :--- |
+| <kbd>Enter</kbd> | **Restore** | Copies the selected text or image back to the clipboard. |
+| <kbd>Ctrl</kbd> + <kbd>Delete</kbd> | **Delete** | Permanently removes the item from history (and disk). |
+| <kbd>Ctrl</kbd> + <kbd>S</kbd> | **Save** | Saves the image to `~/Pictures/Screenshots` (Images only). |
+| <kbd>Shift</kbd> + <kbd>Delete</kbd> | **Clear All** | **Nuclear Option:** Wipes the entire database and cache. |
 
 > **Note:** The database is stored locally at `~/.local/share/leoclip/history.db`.
 
@@ -102,7 +105,7 @@ Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3 and start th
 - [x] Core Daemon (SQLite persistence)
 - [x] Rofi Menu Integration
 - [x] Image and Screenshot support 📸
-- [ ] History Management (Delete items, Clear all)
+- [x] History Management (Delete items, Clear all) 🧹
 - [ ] **v0.2.0:** AUR Package (`PKGBUILD`)
 
 ---

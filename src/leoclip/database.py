@@ -39,3 +39,15 @@ class Database:
         "SELECT content, type FROM clipboard ORDER BY timestamp DESC LIMIT ?",
         (limit,)
       ).fetchall()
+  
+  def delete_clip(self, content: str):
+    with self._get_connection() as conn:
+      conn.execute(
+        "DELETE FROM clipboard WHERE content = ?",
+        (content,)
+      )
+
+  def clear_database(self):
+    with sqlite3.connect(self.db_path, isolation_level=None) as conn:
+      conn.execute("DELETE FROM clipboard")
+      conn.execute("VACUUM")
