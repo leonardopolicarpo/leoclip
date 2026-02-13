@@ -106,7 +106,7 @@ Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3 and start th
 - [x] Rofi Menu Integration
 - [x] Image and Screenshot support 📸
 - [x] History Management (Delete items, Clear all) 🧹
-- [ ] **v0.2.0:** AUR Package (`PKGBUILD`)
+- [x] **v0.2.0:** AUR Package (`PKGBUILD`)
 
 ---
 
