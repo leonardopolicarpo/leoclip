@@ -25,7 +25,7 @@ def show_menu():
   rofi_command = [
     'rofi', '-dmenu', '-i',
     '-p', '📋 LeoClip',
-    'format', 'i',
+    '-format', 'i',
     '-l', '15',
     '-show-icons',
     '-theme-str', 'element-icon { size: 4ch; }'
