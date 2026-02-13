@@ -10,9 +10,7 @@ readme = "README.md"
 authors = [{ name = "Leonardo Policarpo", email = "leo.dumont@outlook.com" }]
 license = { text = "GPL-3.0-or-later" }
 requires-python = ">=3.8"
-dependencies = [
-  "pyperclip"
-]
+dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/leonardopolicarpo/leoclip.git"

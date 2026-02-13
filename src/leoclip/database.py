@@ -10,7 +10,7 @@ class Database:
   def _get_connection(self):
     return sqlite3.connect(self.db_path)
   
-  def init_db(self):
+  def _init_db(self):
     with self._get_connection() as conn:
       conn.execute(
         '''CREATE TABLE IF NOT EXISTS clipboard(
@@ -24,7 +24,10 @@ class Database:
 
   def save_clip(self, content: str, clip_type: str = "text"):
     with self._get_connection() as conn:
-      conn.execute("DELETE FORM clipboard WHERE content = ? AND type = ?")
+      conn.execute(
+        "DELETE FROM clipboard WHERE content = ? AND type = ?",
+        (content, clip_type)
+      )
       conn.execute(
         "INSERT INTO clipboard (content, type) VALUES (?, ?)",
         (content, clip_type)
