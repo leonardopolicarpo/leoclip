@@ -6,7 +6,7 @@
   </p>
   
   <p>
-    <a href="#-installation-arch-linux">Installation</a> •
+    <a href="#-installation">Installation</a> •
     <a href="#-configuration-i3wm">Configuration</a> •
     <a href="#-usage">Usage</a> •
     <a href="#-roadmap">Roadmap</a>
