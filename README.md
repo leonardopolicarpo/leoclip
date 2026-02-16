@@ -6,8 +6,7 @@
   </p>
   
   <p>
-    <a href="#-prerequisites">Prerequisites</a> •
-    <a href="#-installation-dev-mode">Installation</a> •
+    <a href="#-installation-arch-linux">Installation</a> •
     <a href="#-configuration-i3wm">Configuration</a> •
     <a href="#-usage">Usage</a> •
     <a href="#-roadmap">Roadmap</a>
@@ -16,71 +15,84 @@
 
 <br />
 
-## 🛠️ Prerequisites
+## 📦 Installation
 
-Before installing LeoClip, ensure you have the necessary system dependencies.
-LeoClip relies on **xclip** for clipboard interaction and **rofi** for the UI.
+LeoClip can be installed natively on Arch Linux or run via a Python virtual environment on any distribution.
 
-**Arch Linux:**
+### Option 1: Manual Build (Recommended)
 
-```bash
-sudo pacman -S xclip rofi
-```
+This method installs LeoClip as a system package using `pacman`, managing all dependencies automatically.
 
-## 📥 Installation (Dev Mode)
-
-Since LeoClip is currently in development, the best way to install it is by cloning the repository and using `pip` in editable mode. This allows you to modify the code and see changes immediately.
-
-### 1. Clone the repository:
-
+1.  **Clone the repository:**
 ```bash
 git clone https://github.com/leonardopolicarpo/leoclip.git
 cd leoclip
 ```
 
-### 2. Create a virtual environment (Recommended):
-
+2.  **Build and Install:**
 ```bash
+makepkg -si
+```
+
+3.  **Done!** `leoclip-daemon` and `leoclip-menu` are now installed globally in `/usr/bin`.
+
+*(Note: AUR package `leoclip` coming soon for `yay -S leoclip`)*
+
+---
+
+### Option 2: Development Mode (Virtual Environment)
+
+If you want to contribute, modify the code, or run LeoClip on a non-Arch distro, use the editable install method.
+
+1.  **Install system prerequisites:**
+```bash
+sudo pacman -S xclip rofi
+```
+
+2.  **Clone and create a virtual environment:**
+```bash
+git clone https://github.com/leonardopolicarpo/leoclip.git
+cd leoclip
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Install the package:
-
+3.  **Install in editable mode:**
 ```bash
 pip install -e .
 ```
 
-*This command installs dependencies and creates the `leoclip-daemon` and `leoclip-menu` binaries in your local environment.*
+---
 
 ## ⚙️ Configuration (i3wm)
 
-To make LeoClip part of your workflow, add the daemon and the menu shortcut to your i3 config file.
+Add the daemon and the menu shortcut to your i3 config file.
 
-### 1. Open your i3 config:
-
+### 1. Open your config:
 ```bash
 nano ~/.config/i3/config
 ```
 
 ### 2. Add the following lines:
 
-**Important:** Replace `/path/to/leoclip` below with the actual directory where you cloned the repository.
-*(Tip: Run `pwd` inside the folder to get the full path)*.
-
+**For Option 1 (Global Install - Recommended):**
 ```i3
 # --- LeoClip Configuration ---
 
 # Start the daemon in background (monitors clipboard)
-# Point strictly to the binary inside the .venv
-exec_always --no-startup-id /path/to/leoclip/.venv/bin/leoclip-daemon
+exec_always --no-startup-id leoclip-daemon
 
 # Keybinding to open the history menu (Mod + Shift + V)
-bindsym $mod+Shift+v exec --no-startup-id /path/to/leoclip/.venv/bin/leoclip-menu
+bindsym $mod+Shift+v exec --no-startup-id leoclip-menu
 ```
 
+> **Note for Option 2 (Dev Mode) users:** You must point to the absolute path of the venv binaries instead. Example:
+> `exec_always --no-startup-id /home/user/leoclip/.venv/bin/leoclip-daemon`
+
 ### 3. Reload i3:
-Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3 and start the daemon.
+Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3.
+
+---
 
 ## 🏃‍♂️ Usage
 
@@ -106,7 +118,8 @@ Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3 and start th
 - [x] Rofi Menu Integration
 - [x] Image and Screenshot support 📸
 - [x] History Management (Delete items, Clear all) 🧹
-- [x] **v0.2.0:** AUR Package (`PKGBUILD`)
+- [x] Arch Linux Package (`PKGBUILD`) 📦
+- [ ] AUR Submission
 
 ---
 
