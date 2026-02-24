@@ -10,3 +10,8 @@ __pycache__/
 
 *.log
 .DS_Store
+
+*.pkg.tar.zst
+*.tar.gz
+pkg/
+leoclip-*.tar.gz
