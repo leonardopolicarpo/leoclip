@@ -17,13 +17,20 @@
 
 ## 📦 Installation
 
-LeoClip can be installed natively on Arch Linux or run via a Python virtual environment on any distribution.
+LeoClip is officially available on the Arch User Repository (AUR). It can also be built manually or run via a Python virtual environment on any distribution.
 
-### Option 1: Manual Build (Recommended)
+### Option 1: AUR (Recommended for Arch Linux)
 
-This method installs LeoClip as a system package using `pacman`, managing all dependencies automatically.
+The easiest way to install LeoClip is using an AUR helper like `yay` or `paru`:
 
-1.  **Clone the repository:**
+```bash
+yay -S leoclip
+```
+
+### Option 2: Manual Build (Arch Linux)
+
+If you prefer not to use an AUR helper, you can build the package manually from this repository:
+
 ```bash
 git clone https://github.com/leonardopolicarpo/leoclip.git
 cd leoclip
@@ -36,11 +43,7 @@ makepkg -si
 
 3.  **Done!** `leoclip-daemon` and `leoclip-menu` are now installed globally in `/usr/bin`.
 
-*(Note: AUR package `leoclip` coming soon for `yay -S leoclip`)*
-
----
-
-### Option 2: Development Mode (Virtual Environment)
+### Option 3: Development Mode (Virtual Environment)
 
 If you want to contribute, modify the code, or run LeoClip on a non-Arch distro, use the editable install method.
 
@@ -75,7 +78,7 @@ nano ~/.config/i3/config
 
 ### 2. Add the following lines:
 
-**For Option 1 (Global Install - Recommended):**
+**For Options 1 & 2 (Global Install - Recommended):**
 ```i3
 # --- LeoClip Configuration ---
 
@@ -86,7 +89,7 @@ exec_always --no-startup-id leoclip-daemon
 bindsym $mod+Shift+v exec --no-startup-id leoclip-menu
 ```
 
-> **Note for Option 2 (Dev Mode) users:** You must point to the absolute path of the venv binaries instead. Example:
+> **Note for Option 3 (Dev Mode) users:** You must point to the absolute path of the venv binaries instead. Example:
 > `exec_always --no-startup-id /home/user/leoclip/.venv/bin/leoclip-daemon`
 
 ### 3. Reload i3:
@@ -119,7 +122,7 @@ Press <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to reload i3.
 - [x] Image and Screenshot support 📸
 - [x] History Management (Delete items, Clear all) 🧹
 - [x] Arch Linux Package (`PKGBUILD`) 📦
-- [ ] AUR Submission
+- [x] AUR Submission 🚀
 
 ---
 
